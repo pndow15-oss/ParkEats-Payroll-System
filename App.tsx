@@ -145,18 +145,15 @@ const App: React.FC = () => {
       `}>
         <div className="h-full flex flex-col">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
-                <img 
-                  src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
-                  alt="Atherlys Logo" 
-                  className="w-full h-full object-contain"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <h1 className="text-xl font-bold tracking-tight text-slate-900">Atherlys</h1>
+            <div className="flex-1 flex justify-center overflow-hidden">
+              <img 
+                src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
+                alt="Atherlys Logo" 
+                className="w-full h-auto max-h-20 object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
-            <button className="lg:hidden text-slate-400" onClick={() => setIsSidebarOpen(false)}>
+            <button className="lg:hidden text-slate-400 ml-4" onClick={() => setIsSidebarOpen(false)}>
               <X size={20} />
             </button>
           </div>
