@@ -30,21 +30,18 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="max-w-md w-full">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-32 h-20 bg-white rounded-3xl shadow-xl shadow-slate-200 mb-6 overflow-hidden border border-slate-100 p-2">
-            <img 
-              src="https://picsum.photos/seed/atherlys/400/200" 
-              alt="Atherlys Logo" 
-              className="w-full h-full object-contain"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <h1 className="text-3xl font-bold text-slate-900">Atherlys</h1>
-          <p className="text-slate-500 mt-2">Local Payroll Pro v.Feb 26, 2026</p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-4">
+      <div className="w-full max-w-5xl mb-4 flex flex-col items-center">
+        <img 
+          src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
+          alt="Atherlys Logo" 
+          className="w-2/3 h-auto max-h-48 object-contain"
+          referrerPolicy="no-referrer"
+        />
+        <p className="text-slate-500 mt-4 font-bold uppercase tracking-widest text-sm">Local Payroll Pro v.Feb 26, 2026</p>
+      </div>
 
+      <div className="max-w-md w-full">
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
           <form onSubmit={handleLogin} className="space-y-6">
             <div>

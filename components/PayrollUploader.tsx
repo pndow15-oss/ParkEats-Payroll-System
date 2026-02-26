@@ -185,6 +185,7 @@ const PayrollUploader: React.FC<PayrollUploaderProps> = ({ onGenerated, preLoade
       id: Math.random().toString(36).substr(2, 9),
       generationDate: new Date().toISOString(),
       weekIdentifier: data[0]?.weekIdentifier || 'N/A',
+      weekEndingDate: data[0]?.weekEndingDate,
       rows,
       totalHours,
       totalAmount,

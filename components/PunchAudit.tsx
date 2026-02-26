@@ -145,7 +145,7 @@ const PunchAudit: React.FC<PunchAuditProps> = ({ user }) => {
             'Date': formatDate(punch.date),
             'Punch In': punch.inTime,
             'Punch Out': punch.outTime || 'N/A',
-            'Hours': punch.hours,
+            'Hours': punch.hours.toFixed(2),
             'Status': punch.isIgnored ? 'IGNORED' : 'VALID',
             'Pay Rate': row.hourlyRate,
             'Daily Pay': punch.isIgnored ? '0.00' : (punch.hours * row.hourlyRate).toFixed(2),
@@ -159,7 +159,7 @@ const PunchAudit: React.FC<PunchAuditProps> = ({ user }) => {
           'Date': 'N/A',
           'Punch In': 'N/A',
           'Punch Out': 'N/A',
-          'Hours': row.hoursWorked,
+          'Hours': row.hoursWorked.toFixed(2),
           'Pay Rate': row.hourlyRate,
           'Daily Pay': row.amountToPay.toFixed(2),
           'Comments': 'No detailed punch data available'

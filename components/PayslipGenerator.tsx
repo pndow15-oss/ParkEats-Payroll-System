@@ -97,24 +97,21 @@ const PayslipGenerator: React.FC = () => {
 
         {/* PAYSLIP PREVIEW CARD */}
         <div className="max-w-4xl mx-auto bg-white border border-slate-200 shadow-2xl rounded-sm overflow-hidden p-8 slip-container">
-          <div className="flex justify-between items-start border-b border-slate-900 pb-4 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-10 bg-white border border-slate-100 rounded-lg flex items-center justify-center overflow-hidden p-1">
+          <div className="border-b border-slate-900 pb-4 mb-6">
+            <div className="flex justify-between items-start">
+              <div className="flex flex-col items-center">
                 <img 
-                  src="https://picsum.photos/seed/atherlys/100/100" 
+                  src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
                   alt="Atherlys" 
-                  className="w-full h-full object-contain"
+                  className="h-24 w-auto object-contain mb-2"
                   referrerPolicy="no-referrer"
                 />
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
               </div>
-              <div>
-                <h1 className="text-lg font-black uppercase tracking-tighter leading-none">Atherlys</h1>
-                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">Local Payroll Pro</p>
+              <div className="text-right">
+                <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
+                <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Week Ending: {viewingSlip.weekEndingDate || 'N/A'}</p>
               </div>
-            </div>
-            <div className="text-right">
-              <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
-              <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Week Ending: {viewingSlip.weekEndingDate || 'N/A'}</p>
             </div>
           </div>
 
@@ -201,24 +198,21 @@ const PayslipGenerator: React.FC = () => {
         <div className="hidden print:block print-only">
            <div className="slip-print-page">
               <div className="landscape-slip border border-slate-300 p-8 h-[5.2in] flex flex-col justify-between bg-white overflow-hidden">
-                <div className="flex justify-between border-b border-slate-900 pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-white border border-slate-100 rounded flex items-center justify-center overflow-hidden p-0.5">
+                <div className="border-b border-slate-900 pb-3 mb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex flex-col items-center">
                       <img 
-                        src="https://picsum.photos/seed/atherlys/100/100" 
+                        src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
                         alt="Atherlys" 
-                        className="w-full h-full object-contain"
+                        className="h-20 w-auto object-contain mb-1"
                         referrerPolicy="no-referrer"
                       />
+                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
                     </div>
-                    <div>
-                      <h1 className="text-base font-black uppercase tracking-tighter leading-none">Atherlys</h1>
-                      <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
+                    <div className="text-right">
+                      <h2 className="text-lg font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
+                      <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Week Ending: {viewingSlip.weekEndingDate}</p>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <h2 className="text-lg font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
-                    <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Week Ending: {viewingSlip.weekEndingDate}</p>
                   </div>
                 </div>
 
@@ -423,24 +417,21 @@ const PayslipGenerator: React.FC = () => {
             <div key={pageIdx} className="slip-print-page h-[11in] flex flex-col justify-start gap-4">
               {pair.map((row, rowIdx) => (
                 <div key={rowIdx} className="landscape-slip border border-slate-300 p-8 h-[5.2in] flex flex-col justify-between bg-white overflow-hidden">
-                  <div className="flex justify-between border-b border-slate-900 pb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-white border border-slate-100 rounded flex items-center justify-center overflow-hidden p-0.5">
+                  <div className="border-b border-slate-900 pb-3 mb-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex flex-col items-center">
                         <img 
-                          src="https://picsum.photos/seed/atherlys/100/100" 
+                          src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
                           alt="Atherlys" 
-                          className="w-full h-full object-contain"
+                          className="h-20 w-auto object-contain mb-1"
                           referrerPolicy="no-referrer"
                         />
+                        <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
                       </div>
-                      <div>
-                        <h1 className="text-base font-black uppercase tracking-tighter leading-none">Atherlys</h1>
-                        <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
+                      <div className="text-right">
+                        <h2 className="text-lg font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
+                        <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Week Ending: {row.weekEndingDate}</p>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <h2 className="text-lg font-black uppercase tracking-tighter text-slate-900 leading-none">Weekly Payslip</h2>
-                      <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Week Ending: {row.weekEndingDate}</p>
                     </div>
                   </div>
 

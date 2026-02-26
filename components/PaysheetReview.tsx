@@ -101,15 +101,19 @@ const PaysheetReview: React.FC<PaysheetReviewProps> = ({ isReadOnly, onNavigateT
             <select 
               value={selectedPaysheet.id}
               onChange={(e) => setSelectedPaysheet(paysheets.find(p => p.id === e.target.value) || null)}
-              className="w-full appearance-none bg-white border border-slate-200 px-4 py-3 rounded-2xl font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer pr-10"
+              className="w-full appearance-none bg-white border border-slate-200 px-3 py-2.5 rounded-2xl font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer pr-10 text-xs"
             >
-              {paysheets.map(p => (
-                <option key={p.id} value={p.id}>
-                  Week: {p.weekIdentifier} ({new Date(p.generationDate).toLocaleDateString()})
-                </option>
-              ))}
+              {paysheets.map(p => {
+                const endingDate = p.weekEndingDate || p.rows[0]?.weekEndingDate || 'N/A';
+                const uploadDate = new Date(p.generationDate).toLocaleDateString();
+                return (
+                  <option key={p.id} value={p.id}>
+                    Week : {p.weekIdentifier} ending {endingDate} uploaded {uploadDate}
+                  </option>
+                );
+              })}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
           </div>
 
           <div className="bg-slate-900 rounded-3xl p-6 text-white shadow-xl">
@@ -128,7 +132,7 @@ const PaysheetReview: React.FC<PaysheetReviewProps> = ({ isReadOnly, onNavigateT
                 </div>
                 <div>
                   <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Hours</div>
-                  <div className="text-xl font-bold">{selectedPaysheet.totalHours.toFixed(1)} hrs</div>
+                  <div className="text-xl font-bold">{selectedPaysheet.totalHours.toFixed(2)} hrs</div>
                 </div>
              </div>
           </div>
@@ -228,7 +232,7 @@ const PaysheetReview: React.FC<PaysheetReviewProps> = ({ isReadOnly, onNavigateT
                         <div className="text-[10px] font-mono text-slate-400">{row.employeeNumber}</div>
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600">{row.weekIdentifier}</td>
-                      <td className="px-6 py-4 text-right font-medium text-slate-700">{row.hoursWorked}</td>
+                      <td className="px-6 py-4 text-right font-medium text-slate-700">{row.hoursWorked.toFixed(2)}</td>
                       <td className="px-6 py-4 text-right text-slate-500 text-sm">${row.hourlyRate.toFixed(2)}</td>
                       <td className="px-6 py-4 text-right">
                         <span className="font-bold text-slate-900">${row.amountToPay.toFixed(2)}</span>
@@ -281,7 +285,7 @@ const PaysheetReview: React.FC<PaysheetReviewProps> = ({ isReadOnly, onNavigateT
            </div>
            <div className="bg-slate-50 p-4 border border-slate-200">
              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Man-Hours</div>
-             <div className="text-xl font-bold">{selectedPaysheet.totalHours.toFixed(1)} hrs</div>
+             <div className="text-xl font-bold">{selectedPaysheet.totalHours.toFixed(2)} hrs</div>
            </div>
         </div>
 
@@ -301,7 +305,7 @@ const PaysheetReview: React.FC<PaysheetReviewProps> = ({ isReadOnly, onNavigateT
               <tr key={i} className="border-b border-slate-100">
                 <td className="py-3 text-sm font-bold">{row.employeeName}</td>
                 <td className="py-3 text-xs font-mono">{row.employeeNumber}</td>
-                <td className="py-3 text-right text-sm">{row.hoursWorked}</td>
+                <td className="py-3 text-right text-sm">{row.hoursWorked.toFixed(2)}</td>
                 <td className="py-3 text-right text-sm">${row.hourlyRate.toFixed(2)}</td>
                 <td className="py-3 text-right text-sm font-black">${row.amountToPay.toFixed(2)}</td>
                 <td className="py-3 border-l border-slate-100 pl-4">

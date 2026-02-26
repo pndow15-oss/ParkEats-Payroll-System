@@ -146,9 +146,9 @@ const App: React.FC = () => {
         <div className="h-full flex flex-col">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center shadow-sm overflow-hidden">
+              <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
                 <img 
-                  src="https://picsum.photos/seed/atherlys/100/100" 
+                  src="https://lh3.googleusercontent.com/d/1fg2BABmvaRKwLov5mdubhuWFCn-9wjnZ" 
                   alt="Atherlys Logo" 
                   className="w-full h-full object-contain"
                   referrerPolicy="no-referrer"

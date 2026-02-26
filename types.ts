@@ -58,6 +58,7 @@ export interface Paysheet {
   id: string;
   generationDate: string;
   weekIdentifier: string;
+  weekEndingDate?: string;
   rows: PaysheetRow[];
   totalHours: number;
   totalAmount: number;
