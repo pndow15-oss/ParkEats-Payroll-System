@@ -46,7 +46,14 @@ const TimeclockCleaner: React.FC<TimeclockCleanerProps> = ({ onCleaned }) => {
       try {
         const bstr = e.target?.result;
         const wb = XLSX.read(bstr, { type: 'binary' });
-        const ws = wb.Sheets[wb.SheetNames[0]];
+        
+        // Find the "Logs" sheet specifically
+        const logsSheetName = wb.SheetNames.find(name => name.toLowerCase() === 'logs');
+        if (!logsSheetName) {
+          throw new Error("Could not find a tab labelled 'Logs' in the uploaded file.");
+        }
+        
+        const ws = wb.Sheets[logsSheetName];
         const rows = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
 
         // 1. Extract Duration and Week Info

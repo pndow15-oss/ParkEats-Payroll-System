@@ -73,7 +73,7 @@ const App: React.FC = () => {
           />
         );
       case 'audit':
-        return <PunchAudit />;
+        return <PunchAudit user={user} />;
       case 'payslips':
         return <PayslipGenerator />;
       default:
@@ -146,10 +146,15 @@ const App: React.FC = () => {
         <div className="h-full flex flex-col">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-emerald-600 p-2 rounded-lg text-white">
-                <ShieldCheck size={24} />
+              <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center shadow-sm overflow-hidden">
+                <img 
+                  src="https://picsum.photos/seed/atherlys/100/100" 
+                  alt="Atherlys Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
-              <h1 className="text-xl font-bold tracking-tight text-slate-900">ParkSide Eats</h1>
+              <h1 className="text-xl font-bold tracking-tight text-slate-900">Atherlys</h1>
             </div>
             <button className="lg:hidden text-slate-400" onClick={() => setIsSidebarOpen(false)}>
               <X size={20} />

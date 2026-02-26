@@ -99,11 +99,16 @@ const PayslipGenerator: React.FC = () => {
         <div className="max-w-4xl mx-auto bg-white border border-slate-200 shadow-2xl rounded-sm overflow-hidden p-8 slip-container">
           <div className="flex justify-between items-start border-b border-slate-900 pb-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
-                <Building2 size={20} />
+              <div className="w-12 h-10 bg-white border border-slate-100 rounded-lg flex items-center justify-center overflow-hidden p-1">
+                <img 
+                  src="https://picsum.photos/seed/atherlys/100/100" 
+                  alt="Atherlys" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div>
-                <h1 className="text-lg font-black uppercase tracking-tighter leading-none">ParkSide Eats</h1>
+                <h1 className="text-lg font-black uppercase tracking-tighter leading-none">Atherlys</h1>
                 <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">Local Payroll Pro</p>
               </div>
             </div>
@@ -198,11 +203,16 @@ const PayslipGenerator: React.FC = () => {
               <div className="landscape-slip border border-slate-300 p-8 h-[5.2in] flex flex-col justify-between bg-white overflow-hidden">
                 <div className="flex justify-between border-b border-slate-900 pb-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-emerald-600 rounded flex items-center justify-center text-white">
-                      <Building2 size={16} />
+                    <div className="w-8 h-8 bg-white border border-slate-100 rounded flex items-center justify-center overflow-hidden p-0.5">
+                      <img 
+                        src="https://picsum.photos/seed/atherlys/100/100" 
+                        alt="Atherlys" 
+                        className="w-full h-full object-contain"
+                        referrerPolicy="no-referrer"
+                      />
                     </div>
                     <div>
-                      <h1 className="text-base font-black uppercase tracking-tighter leading-none">ParkSide Eats</h1>
+                      <h1 className="text-base font-black uppercase tracking-tighter leading-none">Atherlys</h1>
                       <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
                     </div>
                   </div>
@@ -415,11 +425,16 @@ const PayslipGenerator: React.FC = () => {
                 <div key={rowIdx} className="landscape-slip border border-slate-300 p-8 h-[5.2in] flex flex-col justify-between bg-white overflow-hidden">
                   <div className="flex justify-between border-b border-slate-900 pb-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-emerald-600 rounded flex items-center justify-center text-white">
-                        <Building2 size={16} />
+                      <div className="w-8 h-8 bg-white border border-slate-100 rounded flex items-center justify-center overflow-hidden p-0.5">
+                        <img 
+                          src="https://picsum.photos/seed/atherlys/100/100" 
+                          alt="Atherlys" 
+                          className="w-full h-full object-contain"
+                          referrerPolicy="no-referrer"
+                        />
                       </div>
                       <div>
-                        <h1 className="text-base font-black uppercase tracking-tighter leading-none">ParkSide Eats</h1>
+                        <h1 className="text-base font-black uppercase tracking-tighter leading-none">Atherlys</h1>
                         <p className="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Local Payroll Pro</p>
                       </div>
                     </div>

@@ -13,7 +13,9 @@ export interface User {
 export interface Employee {
   id: string;
   employeeNumber: string;
-  name: string;
+  alias: string;
+  firstName: string;
+  lastName: string;
   hourlyRate: number;
   lastUpdated: string;
 }
@@ -26,6 +28,7 @@ export interface PunchDetail {
   inconsistent?: boolean;
   isIgnored?: boolean;
   comment?: string;
+  isManualEntry?: boolean;
 }
 
 export interface TimeClockEntry {

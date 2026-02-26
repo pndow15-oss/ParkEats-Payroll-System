@@ -46,8 +46,14 @@ const PayrollUploader: React.FC<PayrollUploaderProps> = ({ onGenerated, preLoade
       try {
         const bstr = e.target?.result;
         const wb = XLSX.read(bstr, { type: 'binary' });
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
+        
+        // Find the "Logs" sheet specifically
+        const logsSheetName = wb.SheetNames.find(name => name.toLowerCase() === 'logs');
+        if (!logsSheetName) {
+          throw new Error("Could not find a tab labelled 'Logs' in the uploaded file.");
+        }
+        
+        const ws = wb.Sheets[logsSheetName];
         const json = XLSX.utils.sheet_to_json(ws) as any[];
 
         // Map and Validate Columns
@@ -162,6 +168,7 @@ const PayrollUploader: React.FC<PayrollUploaderProps> = ({ onGenerated, preLoade
 
       return {
         ...entry,
+        employeeName: rateInfo ? `${rateInfo.firstName} ${rateInfo.lastName}` : entry.employeeName,
         hourlyRate,
         amountToPay,
         nisDeduction,

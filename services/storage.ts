@@ -26,6 +26,12 @@ export const storageService = {
     localStorage.setItem(STORAGE_KEYS.PAYSHEETS, JSON.stringify([paysheet, ...existing]));
   },
 
+  updatePaysheet: (paysheet: Paysheet) => {
+    const existing = storageService.getPaysheets();
+    const updated = existing.map(p => p.id === paysheet.id ? paysheet : p);
+    localStorage.setItem(STORAGE_KEYS.PAYSHEETS, JSON.stringify(updated));
+  },
+
   deletePaysheet: (id: string) => {
     const existing = storageService.getPaysheets();
     localStorage.setItem(STORAGE_KEYS.PAYSHEETS, JSON.stringify(existing.filter(p => p.id !== id)));

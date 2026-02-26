@@ -16,17 +16,40 @@ const EmployeeManager: React.FC = () => {
   // Form State
   const [formData, setFormData] = useState({
     employeeNumber: '',
-    name: '',
+    alias: '',
+    firstName: '',
+    lastName: '',
     hourlyRate: ''
   });
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setEmployees(storageService.getEmployees());
+    const stored = storageService.getEmployees();
+    // Normalize old data if necessary
+    const normalized = stored.map(e => ({
+      ...e,
+      alias: e.alias || (e as any).name || '',
+      firstName: e.firstName || (e as any).name || '',
+      lastName: e.lastName || ''
+    }));
+    setEmployees(normalized);
   }, []);
 
+  // Auto-fill Alias from latest paysheet if employee number matches
+  useEffect(() => {
+    if (formData.employeeNumber && !formData.alias && !editingId) {
+      const latestPaysheet = storageService.getPaysheets()[0];
+      if (latestPaysheet) {
+        const row = latestPaysheet.rows.find(r => r.employeeNumber === formData.employeeNumber);
+        if (row) {
+          setFormData(prev => ({ ...prev, alias: row.employeeName }));
+        }
+      }
+    }
+  }, [formData.employeeNumber, editingId]);
+
   const validate = () => {
-    if (!formData.employeeNumber || !formData.name || !formData.hourlyRate) {
+    if (!formData.employeeNumber || !formData.alias || !formData.firstName || !formData.lastName || !formData.hourlyRate) {
       setError('All fields are mandatory');
       return false;
     }
@@ -53,7 +76,9 @@ const EmployeeManager: React.FC = () => {
     const employeeData: Employee = {
       id: editingId || Math.random().toString(36).substr(2, 9),
       employeeNumber: formData.employeeNumber,
-      name: formData.name,
+      alias: formData.alias,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       hourlyRate: parseFloat(formData.hourlyRate),
       lastUpdated: new Date().toISOString()
     };
@@ -91,7 +116,7 @@ const EmployeeManager: React.FC = () => {
   };
 
   const resetForm = () => {
-    setFormData({ employeeNumber: '', name: '', hourlyRate: '' });
+    setFormData({ employeeNumber: '', alias: '', firstName: '', lastName: '', hourlyRate: '' });
     setIsAdding(false);
     setEditingId(null);
     setError('');
@@ -101,16 +126,26 @@ const EmployeeManager: React.FC = () => {
     setEditingId(emp.id);
     setFormData({
       employeeNumber: emp.employeeNumber,
-      name: emp.name,
+      alias: emp.alias,
+      firstName: emp.firstName,
+      lastName: emp.lastName,
       hourlyRate: emp.hourlyRate.toString()
     });
     setIsAdding(true);
   };
 
   const filteredEmployees = employees.filter(e => 
-    e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    `${e.firstName} ${e.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    e.alias.toLowerCase().includes(searchTerm.toLowerCase()) ||
     e.employeeNumber.includes(searchTerm)
   );
+
+  const latestPaysheet = storageService.getPaysheets()[0];
+  const missingEmployees = latestPaysheet?.rows.filter(r => r.status === 'missing_rate') || [];
+  // Deduplicate missing employees by ID
+  const uniqueMissing = Array.from(new Map(missingEmployees.map(m => [m.employeeNumber, m])).values());
+  // Filter out those already in the database
+  const trulyMissing = uniqueMissing.filter(m => !employees.some(e => e.employeeNumber === m.employeeNumber));
 
   return (
     <div className="space-y-6">
@@ -146,6 +181,41 @@ const EmployeeManager: React.FC = () => {
         </div>
       </div>
 
+      {trulyMissing.length > 0 && !isAdding && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 animate-in fade-in slide-in-from-top-4">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+              <AlertCircle size={20} />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-amber-900">Unrecognized Employees Found</h4>
+              <p className="text-xs text-amber-700">The last upload contains employees not in your database.</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {trulyMissing.map(m => (
+              <button
+                key={m.employeeNumber}
+                onClick={() => {
+                  setIsAdding(true);
+                  setFormData({
+                    employeeNumber: m.employeeNumber,
+                    alias: m.employeeName,
+                    firstName: '',
+                    lastName: '',
+                    hourlyRate: ''
+                  });
+                }}
+                className="px-3 py-1.5 bg-white border border-amber-200 rounded-lg text-xs font-bold text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
+              >
+                <Plus size={12} />
+                Add {m.employeeName} ({m.employeeNumber})
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {isAdding && (
         <div className="bg-white p-6 rounded-2xl border-2 border-emerald-100 shadow-sm animate-in fade-in slide-in-from-top-4">
           <div className="flex items-center justify-between mb-6">
@@ -157,7 +227,7 @@ const EmployeeManager: React.FC = () => {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ID Number</label>
               <input
@@ -169,13 +239,33 @@ const EmployeeManager: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Full Name</label>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Alias (from file)</label>
               <input
                 type="text"
-                value={formData.name}
-                onChange={e => setFormData({...formData, name: e.target.value})}
+                value={formData.alias}
+                onChange={e => setFormData({...formData, alias: e.target.value})}
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none"
-                placeholder="Jane Doe"
+                placeholder="Jane D"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">First Name</label>
+              <input
+                type="text"
+                value={formData.firstName}
+                onChange={e => setFormData({...formData, firstName: e.target.value})}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none"
+                placeholder="Jane"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Surname</label>
+              <input
+                type="text"
+                value={formData.lastName}
+                onChange={e => setFormData({...formData, lastName: e.target.value})}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 outline-none"
+                placeholder="Doe"
               />
             </div>
             <div>
@@ -239,6 +329,7 @@ const EmployeeManager: React.FC = () => {
               <tr className="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-widest border-b border-slate-100">
                 <th className="px-6 py-4">Employee ID</th>
                 <th className="px-6 py-4">Full Name</th>
+                <th className="px-6 py-4">Alias</th>
                 <th className="px-6 py-4 text-right">Hourly Rate</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -249,7 +340,8 @@ const EmployeeManager: React.FC = () => {
                   <td className="px-6 py-4">
                     <span className="font-mono text-sm bg-slate-100 px-2 py-1 rounded text-slate-600">{emp.employeeNumber}</span>
                   </td>
-                  <td className="px-6 py-4 font-semibold text-slate-900">{emp.name}</td>
+                  <td className="px-6 py-4 font-semibold text-slate-900">{emp.firstName} {emp.lastName}</td>
+                  <td className="px-6 py-4 text-sm text-slate-500">{emp.alias}</td>
                   <td className="px-6 py-4 text-right">
                     <span className="text-emerald-600 font-bold">${emp.hourlyRate.toFixed(2)}</span>
                   </td>
